@@ -10,6 +10,7 @@ function Toolbar({ onAlgorithmChange, onDelayChange, delay }) {
       <HelperContainer
         onAlgorithmChange={onAlgorithmChange}
         onDelayChange={onDelayChange}
+        delay={delay}
       />
     </div>
   );
