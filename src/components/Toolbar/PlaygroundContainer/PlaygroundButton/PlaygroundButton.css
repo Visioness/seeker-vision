@@ -1,0 +1,92 @@
+.playground-button {
+  --button-color: hsl(345, 100%, 48%);
+  --shadow-one: hsl(340, 100%, 32%);
+  --shadow-two: hsl(340, 100%, 20%);
+  --shadow-three: hsl(340, 100%, 12%);
+  --shadow-four: hsl(340, 100%, 8%);
+  position: relative;
+  width: 40px;
+  height: 60px;
+  background: var(--button-color);
+  color: #d1d1d1;
+  border: none;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  box-shadow: inset 0 -4px 10px rgba(0, 0, 0, 0.6);
+  will-change: transform;
+  transform-style: preserve-3d;
+  transition: transform 0.25s cubic-bezier(0.3, 0.7, 0.4, 1),
+    box-shadow 0.25s cubic-bezier(0.3, 0.7, 0.4, 1);
+  cursor: pointer;
+  user-select: none;
+
+  margin-left: 15px;
+  margin-right: 6px;
+  margin-bottom: 16px;
+}
+
+.playground-button:disabled {
+  --button-color: hsl(0, 0%, 40%);
+  --shadow-one: hsl(0, 0%, 30%);
+  --shadow-two: hsl(0, 0%, 20%);
+  --shadow-three: hsl(0, 0%, 10%);
+  --shadow-four: hsl(0, 0%, 5%);
+  opacity: 1;
+  pointer-events: none;
+  cursor: not-allowed;
+  box-shadow: inset 0 -4px 10px rgba(0, 0, 0, 0.6);
+}
+
+.playground-button::before {
+  content: '';
+  position: absolute;
+  inset: -6px -10px;
+  transform: translate3d(-0.5em, 1em, -1em);
+  border: 6px solid #3d3d3d;
+  border-radius: 26px;
+  will-change: transform box-shadow;
+  transition: transform 0.25s cubic-bezier(0.3, 0.7, 0.4, 1),
+    box-shadow 0.25s cubic-bezier(0.3, 0.7, 0.4, 1);
+  background: linear-gradient(
+    to right,
+    var(--shadow-one) 0%,
+    var(--shadow-two) 40%,
+    var(--shadow-three) 60%,
+    var(--shadow-four) 100%
+  );
+}
+
+.playground-button:focus,
+.playground-button:focus-visible {
+  outline: none;
+  box-shadow: inset 0 -4px 10px rgb(0, 0, 0, 0.6);
+  transform: translate3d(-0.125em, 0.25em, -1em);
+}
+
+.playground-button:focus::before,
+.playground-button:focus-visible::before {
+  box-shadow: inset 0 2px 6px rgb(0, 0, 0, 0.6), 0 0 8px 1px #e67979;
+  transform: translate3d(-0.375em, 0.75em, -1em);
+}
+
+.playground-button:not(:active):hover {
+  box-shadow: inset 0 -4px 10px rgb(0, 0, 0, 0.6);
+  transform: translate3d(-0.125em, 0.25em, -1em);
+}
+
+.playground-button:not(:active):hover::before {
+  box-shadow: inset 0 2px 6px rgb(0, 0, 0, 0.6);
+  transform: translate3d(-0.375em, 0.75em, -1em);
+}
+
+.playground-button:active {
+  box-shadow: inset 0 2px 10px 2px rgb(0, 0, 0);
+  transform: translate3d(-0.5em, 1em, -1em);
+}
+
+.playground-button:active::before {
+  box-shadow: inset -10px 2px 20px 2px rgb(116, 116, 116),
+    inset 10px 2px 20px 2px rgb(0, 0, 0);
+  transform: translate3d(0em, 0em, -1em);
+}
