@@ -1,0 +1,28 @@
+.board {
+  width: 100%;
+  height: 100%;
+  overflow: hidden; /* Prevent content from affecting size */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.board-row {
+  display: flex;
+}
+
+.board-row:not(:first-child) {
+  margin-top: -2px;
+}
+
+.board-cell {
+  width: 40px;
+  height: 40px;
+  border: 2px solid #ffffff0c;
+  border-radius: 16px;
+}
+
+.board-cell:not(:first-child) {
+  margin-left: -2px;
+}
