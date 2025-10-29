@@ -55,12 +55,4 @@ class BFS extends BaseAlgorithm {
   }
 }
 
-const initialArr = Array.from({ length: 50 }, () =>
-  Array.from({ length: 50 }, () => 'unvisited')
-);
-
-const alg = new BFS(initialArr, '1-1', '48-48');
-alg.initialize();
-console.log(alg.run());
-
 export default BFS;
