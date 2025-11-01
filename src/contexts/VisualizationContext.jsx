@@ -9,13 +9,14 @@ import {
 } from 'react';
 import { useSettings } from './SettingsContext';
 
-const createInitialBoard = (rows, cols) => {
-  const initialBoard = Array.from({ length: rows }, () =>
-    Array.from({ length: cols }, () => 'shadow')
+const createInitialBoard = (board) => {
+  const initialBoard = Array.from({ length: board.positions.end.row }, () =>
+    Array.from({ length: board.positions.end.col }, () => 'shadow')
   );
 
-  initialBoard[1][1] = 'start';
-  initialBoard[rows - 2][cols - 2] = 'end';
+  initialBoard[board.positions.start.row][board.positions.start.col] = 'start';
+  initialBoard[board.positions.end.row - 2][board.positions.end.col - 2] =
+    'end';
 
   return initialBoard;
 };
@@ -63,10 +64,7 @@ const VisualizationProvider = ({ board, children, setBoard }) => {
   const initializeBoard = useCallback(() => {
     setBoard((previous) => ({
       ...previous,
-      state: createInitialBoard(
-        previous.dimensions.rows,
-        previous.dimensions.cols
-      ),
+      state: createInitialBoard(previous),
     }));
   }, []);
 
@@ -95,7 +93,11 @@ const VisualizationProvider = ({ board, children, setBoard }) => {
         state: previous.state.map((row, rowIndex) =>
           rowIndex === targetRow
             ? row.map((cell, colIndex) =>
-                colIndex === targetCol ? 'visited' : cell
+                colIndex === targetCol
+                  ? cell === 'shadow'
+                    ? 'visited'
+                    : `${cell} visited`
+                  : cell
               )
             : row
         ),
@@ -109,6 +111,8 @@ const VisualizationProvider = ({ board, children, setBoard }) => {
       stepIndex.current++;
     } else {
       setVisualState('finished');
+      clearInterval(interval.current);
+      interval.current = null;
     }
   }, [updateBoard, setVisualState]);
 
@@ -147,7 +151,7 @@ const VisualizationProvider = ({ board, children, setBoard }) => {
     stepIndex.current = 0;
 
     initializeBoard();
-  }, []);
+  }, [initializeBoard]);
 
   useEffect(() => {
     return () => {

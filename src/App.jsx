@@ -9,7 +9,11 @@ import Legend from './components/Legend/Legend';
 function App() {
   const [board, setBoard] = useState({
     state: null,
-    dimensions: { rows: 0, cols: 0 },
+    dimensions: { rows: 10, cols: 10 },
+    positions: {
+      start: { row: 1, col: 1 },
+      end: { row: 8, col: 8 },
+    },
   });
 
   return (

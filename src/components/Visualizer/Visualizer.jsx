@@ -1,5 +1,5 @@
 import './Visualizer.css';
-import { useLayoutEffect, useRef } from 'react';
+import { useCallback, useLayoutEffect, useRef } from 'react';
 import Cell from './Cell/Cell';
 
 const CELL_SIZE = 40;
@@ -21,6 +21,10 @@ function Visualizer({ board, setBoard }) {
         setBoard((previous) => ({
           ...previous,
           dimensions: { rows, cols },
+          positions: {
+            start: previous.positions.start,
+            end: { row: rows - 2, col: cols - 2 },
+          },
         }));
       }
     });

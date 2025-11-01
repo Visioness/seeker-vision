@@ -1,7 +1,7 @@
 .board-cell {
   width: 40px;
   height: 40px;
-  border: 2px solid #ffffff0c;
+  border: 2px solid #ffffff1a;
   border-radius: 16px;
   transition: background-color 0.1s ease-in-out, border-color 0.1s ease-in-out;
 }
@@ -11,29 +11,44 @@
 }
 
 .start {
-  background-color: #00ff0020;
-  border-color: #00ff0060;
+  background-color: #00ff0010;
+  border-color: #00ff0040;
 }
 
 .end {
-  background-color: #ff000020;
-  border-color: #ff000060;
+  background-color: #ff000010;
+  border-color: #ff000040;
 }
 
 .visited {
-  background-color: #0000ff20;
-  border-color: #0000ff60;
-  animation: visited 0.3s ease-in-out;
+  position: relative;
+}
+
+.visited::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50%;
+  height: 50%;
+  border-radius: 30%;
+  border: 2px solid rgba(147, 120, 220, 0.5);
+  background-color: rgba(147, 120, 220, 0.2);
+  animation: visited 0.4s linear;
 }
 
 @keyframes visited {
   0% {
-    transform: scale(1);
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0);
   }
   50% {
-    transform: scale(1.2);
+    opacity: 0.5;
+    transform: translate(-50%, -50%) scale(1.5);
   }
   100% {
-    transform: scale(1);
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
   }
 }
