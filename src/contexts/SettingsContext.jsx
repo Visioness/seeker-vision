@@ -10,7 +10,7 @@ import MODELS from '../algorithms/models';
 const SettingsContext = createContext({
   changeAlgorithm: () => {},
   changeDelay: () => {},
-  delay: 10,
+  delay: 60,
   model: () => MODELS['bfs'],
 });
 
@@ -27,7 +27,7 @@ const useSettings = () => {
 const SettingsProvider = ({ children }) => {
   const [algorithmName, setAlgorithmName] = useState('bfs');
   const [model, setModel] = useState(() => MODELS['bfs']);
-  const [delay, setDelay] = useState(10);
+  const [delay, setDelay] = useState(60);
 
   const changeAlgorithm = useCallback((name) => {
     setAlgorithmName(name);
