@@ -9,6 +9,18 @@ import {
 } from 'react';
 import { useSettings } from './SettingsContext';
 
+const createInitialBoard = (board) => {
+  const initialBoard = Array.from({ length: board.positions.end.row }, () =>
+    Array.from({ length: board.positions.end.col }, () => 'shadow')
+  );
+
+  initialBoard[board.positions.start.row][board.positions.start.col] = 'start';
+  initialBoard[board.positions.end.row - 2][board.positions.end.col - 2] =
+    'end';
+
+  return initialBoard;
+};
+
 const VisualizationContext = createContext({
   play: () => {},
   pause: () => {},
@@ -33,18 +45,28 @@ const VisualizationProvider = ({ board, children, setBoard }) => {
   const [visualState, setVisualState] = useState('idle');
   const pathfinder = useRef(null);
   const actions = useRef({ visitedStates: null, solution: null });
-  const stepIndex = useRef(null);
+  const stepIndex = useRef(0);
   const interval = useRef(null);
 
   useEffect(() => {
     clearInterval(interval.current);
     interval.current = null;
-    stepIndex.current = null;
+    stepIndex.current = 0;
     pathfinder.current = null;
     actions.current = null;
 
     setVisualState('idle');
+    if (board.dimensions.rows && board.dimensions.cols) {
+      initializeBoard();
+    }
   }, [board.dimensions]);
+
+  const initializeBoard = useCallback(() => {
+    setBoard((previous) => ({
+      ...previous,
+      state: createInitialBoard(previous),
+    }));
+  }, []);
 
   const initializePathfinder = useCallback(
     (boardState) => {
@@ -54,8 +76,16 @@ const VisualizationProvider = ({ board, children, setBoard }) => {
     [model]
   );
 
+  const runModel = useCallback(() => {
+    if (!pathfinder.current) {
+      initializePathfinder(board.state);
+      const result = pathfinder.current.run();
+      actions.current = result.visitedStates.concat(result.solution);
+    }
+  }, [board.state, initializePathfinder]);
+
   const updateBoard = useCallback(() => {
-    const coordinate = actions.current.visitedStates[stepIndex.current];
+    const coordinate = actions.current[stepIndex.current];
     const [targetRow, targetCol] = coordinate.split('-').map(Number);
 
     setBoard((previous) => {
@@ -64,7 +94,17 @@ const VisualizationProvider = ({ board, children, setBoard }) => {
         state: previous.state.map((row, rowIndex) =>
           rowIndex === targetRow
             ? row.map((cell, colIndex) =>
-                colIndex === targetCol ? 'visited' : cell
+                colIndex === targetCol
+                  ? cell === 'shadow'
+                    ? 'visited'
+                    : cell === 'start' || cell === 'end'
+                    ? `${cell} visited`
+                    : cell === 'visited'
+                    ? 'visited path'
+                    : cell === 'start' || cell === 'end'
+                    ? `${cell} visited path`
+                    : `${cell} visited path`
+                  : cell
               )
             : row
         ),
@@ -73,56 +113,52 @@ const VisualizationProvider = ({ board, children, setBoard }) => {
   }, [setBoard]);
 
   const nextStep = useCallback(() => {
-    if (stepIndex.current < actions.current.visitedStates.length) {
+    if (stepIndex.current < actions.current.length) {
       updateBoard();
       stepIndex.current++;
     } else {
       setVisualState('finished');
+      clearInterval(interval.current);
+      interval.current = null;
     }
   }, [updateBoard, setVisualState]);
 
   const play = useCallback(() => {
-    if (!pathfinder.current) {
-      initializePathfinder(board.state);
-      actions.current = pathfinder.current.run();
-      stepIndex.current = 0;
-    }
-
     setVisualState('playing');
+
+    runModel();
 
     interval.current = setInterval(() => {
       nextStep();
     }, delay);
-  }, [board.state, delay, initializePathfinder, nextStep]);
+  }, [delay, nextStep, runModel]);
 
   const pause = useCallback(() => {
+    setVisualState('paused');
+
     clearInterval(interval.current);
     interval.current = null;
-    setVisualState('paused');
   }, []);
 
   const stepForward = useCallback(() => {
-    if (!pathfinder.current) {
-      initializePathfinder(board.state);
-      actions.current = pathfinder.current.run();
-      stepIndex.current = 0;
-    }
-
     setVisualState((previous) => (previous !== 'paused' ? 'paused' : previous));
 
+    runModel();
+
     nextStep();
-  }, [board.state, initializePathfinder, nextStep]);
+  }, [nextStep, runModel]);
 
   const reset = useCallback(() => {
+    setVisualState('idle');
+
     clearInterval(interval.current);
     interval.current = null;
-    stepIndex.current = null;
     pathfinder.current = null;
     actions.current = null;
+    stepIndex.current = 0;
 
-    setVisualState('idle');
-    setBoard({ state: null, dimensions: { rows: 0, cols: 0 } });
-  }, []);
+    initializeBoard();
+  }, [initializeBoard]);
 
   useEffect(() => {
     return () => {

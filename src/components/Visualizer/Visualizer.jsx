@@ -1,19 +1,8 @@
 import './Visualizer.css';
-import { useLayoutEffect, useRef } from 'react';
+import { useCallback, useLayoutEffect, useRef } from 'react';
 import Cell from './Cell/Cell';
 
 const CELL_SIZE = 40;
-
-const createInitialBoard = (rows, cols) => {
-  const initialBoard = Array.from({ length: rows }, () =>
-    Array.from({ length: cols }, () => 'shadow')
-  );
-
-  initialBoard[1][1] = 'start';
-  initialBoard[rows - 2][cols - 2] = 'end';
-
-  return initialBoard;
-};
 
 function Visualizer({ board, setBoard }) {
   const boardRef = useRef(null);
@@ -29,10 +18,14 @@ function Visualizer({ board, setBoard }) {
       if (rows <= 0 || cols <= 0) return;
 
       if (board.dimensions.rows !== rows || board.dimensions.cols !== cols) {
-        setBoard({
-          state: createInitialBoard(rows, cols),
+        setBoard((previous) => ({
+          ...previous,
           dimensions: { rows, cols },
-        });
+          positions: {
+            start: previous.positions.start,
+            end: { row: rows - 2, col: cols - 2 },
+          },
+        }));
       }
     });
 
