@@ -6,7 +6,6 @@ import { useVisualization } from '../../../contexts/VisualizationContext';
 
 const PlaygroundContainer = memo(function PlaygroundContainer() {
   const { play, stepForward, pause, reset, visualState } = useVisualization();
-  console.log('PlaygroundContainer render');
 
   return (
     <div className='playground-container'>

@@ -18,7 +18,6 @@ const createInitialBoard = (rows, cols) => {
 function Visualizer({ board, setBoard }) {
   const boardRef = useRef(null);
 
-  console.log('Board render');
   useLayoutEffect(() => {
     const observer = new ResizeObserver((entries) => {
       if (!entries[0]) return;

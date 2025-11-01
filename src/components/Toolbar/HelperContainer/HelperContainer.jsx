@@ -10,7 +10,6 @@ const HelperContainer = memo(function HelperContainer() {
   const [visibleModal, setVisibleModal] = useState(null);
   const modalRef = useRef(null);
 
-  console.log('HelperContainer render');
   return (
     <div className='helper-container flex flex-col gap-4'>
       <HelperButton onOpen={() => setVisibleModal('settings')}>
