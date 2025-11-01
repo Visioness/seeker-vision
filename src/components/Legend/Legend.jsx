@@ -1,7 +1,9 @@
 import './Legend.css';
+import { memo } from 'react';
 
-function Legend() {
+const Legend = memo(function Legend() {
+  console.log('Legend');
   return <div className='legend p-2'>Here are the colors.</div>;
-}
+});
 
 export default Legend;
