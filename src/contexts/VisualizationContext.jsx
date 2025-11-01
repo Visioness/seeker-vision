@@ -36,6 +36,16 @@ const VisualizationProvider = ({ board, children, setBoard }) => {
   const stepIndex = useRef(null);
   const interval = useRef(null);
 
+  useEffect(() => {
+    clearInterval(interval.current);
+    interval.current = null;
+    stepIndex.current = null;
+    pathfinder.current = null;
+    actions.current = null;
+
+    setVisualState('idle');
+  }, [board.dimensions]);
+
   const initializePathfinder = useCallback(
     (boardState) => {
       pathfinder.current = new model(boardState);
