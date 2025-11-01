@@ -1,8 +1,20 @@
 class BaseAlgorithm {
-  constructor(initialState, start, end) {
+  constructor(initialState) {
     this.boardState = initialState;
-    this.start = start;
-    this.end = end;
+    [this.start, this.end] = this.extractPositions();
+  }
+
+  extractPositions() {
+    let start, end;
+
+    for (let i = 0; i < this.boardState.length; i++) {
+      for (let j = 0; j < this.boardState[i].length; j++) {
+        if (this.boardState[i][j] === 'start') start = `${i}-${j}`;
+        if (this.boardState[i][j] === 'end') end = `${i}-${j}`;
+      }
+    }
+
+    return [start, end];
   }
 
   initialize() {}

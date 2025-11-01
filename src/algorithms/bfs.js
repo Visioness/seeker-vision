@@ -2,8 +2,8 @@ import { Node, OptimizedQueue } from '../utils/util.js';
 import BaseAlgorithm from './base.js';
 
 class BFS extends BaseAlgorithm {
-  constructor(initialState, start, end) {
-    super(initialState, start, end);
+  constructor(initialState) {
+    super(initialState);
   }
 
   initialize() {
