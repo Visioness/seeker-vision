@@ -31,7 +31,7 @@ const SettingsProvider = ({ children }) => {
 
   const changeAlgorithm = useCallback((name) => {
     setAlgorithmName(name);
-    setModel(MODELS[name]);
+    setModel(() => MODELS[name]);
   }, []);
 
   const changeDelay = useCallback((value) => {
