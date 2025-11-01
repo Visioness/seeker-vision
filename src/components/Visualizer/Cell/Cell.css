@@ -29,13 +29,13 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) scale(0);
   width: 50%;
   height: 50%;
   border-radius: 30%;
   border: 2px solid rgba(147, 120, 220, 0.5);
   background-color: rgba(147, 120, 220, 0.2);
-  animation: visited 0.4s linear;
+  animation: visited 0.4s linear forwards;
 }
 
 @keyframes visited {
@@ -50,5 +50,26 @@
   100% {
     opacity: 1;
     transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+.path.visited::before {
+  animation: path 0.4s linear forwards;
+}
+
+@keyframes path {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    border: 2px solid rgba(255, 200, 50, 0.5);
+    background-color: rgba(255, 200, 50, 0.2);
   }
 }

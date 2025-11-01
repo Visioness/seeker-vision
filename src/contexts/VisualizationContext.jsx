@@ -79,12 +79,13 @@ const VisualizationProvider = ({ board, children, setBoard }) => {
   const runModel = useCallback(() => {
     if (!pathfinder.current) {
       initializePathfinder(board.state);
-      actions.current = pathfinder.current.run();
+      const result = pathfinder.current.run();
+      actions.current = result.visitedStates.concat(result.solution);
     }
   }, [board.state, initializePathfinder]);
 
   const updateBoard = useCallback(() => {
-    const coordinate = actions.current.visitedStates[stepIndex.current];
+    const coordinate = actions.current[stepIndex.current];
     const [targetRow, targetCol] = coordinate.split('-').map(Number);
 
     setBoard((previous) => {
@@ -96,7 +97,13 @@ const VisualizationProvider = ({ board, children, setBoard }) => {
                 colIndex === targetCol
                   ? cell === 'shadow'
                     ? 'visited'
-                    : `${cell} visited`
+                    : cell === 'start' || cell === 'end'
+                    ? `${cell} visited`
+                    : cell === 'visited'
+                    ? 'visited path'
+                    : cell === 'start' || cell === 'end'
+                    ? `${cell} visited path`
+                    : `${cell} visited path`
                   : cell
               )
             : row
@@ -106,7 +113,7 @@ const VisualizationProvider = ({ board, children, setBoard }) => {
   }, [setBoard]);
 
   const nextStep = useCallback(() => {
-    if (stepIndex.current < actions.current.visitedStates.length) {
+    if (stepIndex.current < actions.current.length) {
       updateBoard();
       stepIndex.current++;
     } else {
