@@ -1,0 +1,39 @@
+.board-cell {
+  width: 40px;
+  height: 40px;
+  border: 2px solid #ffffff0c;
+  border-radius: 16px;
+  transition: background-color 0.1s ease-in-out, border-color 0.1s ease-in-out;
+}
+
+.board-cell:not(:first-child) {
+  margin-left: -2px;
+}
+
+.start {
+  background-color: #00ff0020;
+  border-color: #00ff0060;
+}
+
+.end {
+  background-color: #ff000020;
+  border-color: #ff000060;
+}
+
+.visited {
+  background-color: #0000ff20;
+  border-color: #0000ff60;
+  animation: visited 0.3s ease-in-out;
+}
+
+@keyframes visited {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
