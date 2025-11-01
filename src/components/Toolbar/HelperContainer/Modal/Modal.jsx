@@ -9,8 +9,6 @@ function Modal({ modalRef, type, onClose, children }) {
     else modalRef.current?.close();
   }, [type]);
 
-  console.log('Modal render');
-
   const handleBackdropClick = (e) => {
     const rect = modalRef.current.getBoundingClientRect();
     if (
