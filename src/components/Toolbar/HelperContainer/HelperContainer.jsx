@@ -1,10 +1,12 @@
 import './HelperContainer.css';
+import { memo, useRef, useState } from 'react';
 import { BookText, Settings2 } from 'lucide-react';
-import { useRef, useState } from 'react';
+import { useSettings } from '../../../contexts/SettingsContext';
 import HelperButton from './HelperButton/HelperButton';
 import Modal from './Modal/Modal';
 
-function HelperContainer({ onAlgorithmChange, onDelayChange, delay }) {
+const HelperContainer = memo(function HelperContainer() {
+  const { algorithmName, changeAlgorithm, changeDelay, delay } = useSettings();
   const [visibleModal, setVisibleModal] = useState(null);
   const modalRef = useRef(null);
 
@@ -29,7 +31,8 @@ function HelperContainer({ onAlgorithmChange, onDelayChange, delay }) {
                 <label htmlFor='algorithm-select'>Algorithm</label>
                 <select
                   id='algorithm-select'
-                  onChange={(e) => onAlgorithmChange(e.target.value)}>
+                  value={algorithmName}
+                  onChange={(e) => changeAlgorithm(e.target.value)}>
                   <option value='dfs'>Depth First Search</option>
                   <option value='bfs'>Breadth First Search</option>
                 </select>
@@ -45,7 +48,7 @@ function HelperContainer({ onAlgorithmChange, onDelayChange, delay }) {
                     max='100'
                     step='20'
                     value={delay}
-                    onChange={(e) => onDelayChange(e.target.value)}
+                    onChange={(e) => changeDelay(Number(e.target.value))}
                   />
                   <span id='delay-range-value'>{delay}ms</span>
                 </div>
@@ -83,6 +86,6 @@ function HelperContainer({ onAlgorithmChange, onDelayChange, delay }) {
       )}
     </div>
   );
-}
+});
 
 export default HelperContainer;

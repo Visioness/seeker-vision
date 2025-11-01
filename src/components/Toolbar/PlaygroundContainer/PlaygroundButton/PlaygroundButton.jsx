@@ -1,12 +1,13 @@
 import './PlaygroundButton.css';
 
-function PlaygroundButton({ children, disabled }) {
+function PlaygroundButton({ children, disabled, onClick }) {
   return (
     <div className='button-wrapper'>
       <button
-        className='playground-button flex justify-center items-center'
         type='button'
-        disabled={disabled}>
+        className='playground-button flex justify-center items-center'
+        disabled={disabled}
+        onClick={onClick}>
         {children}
       </button>
     </div>
