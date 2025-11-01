@@ -11,7 +11,6 @@ function App() {
     state: null,
     dimensions: { rows: 0, cols: 0 },
   });
-  console.log('App render');
 
   return (
     <div className='app grid grid-cols-[auto_1fr] grid-rows-[1fr_auto]'>

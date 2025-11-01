@@ -4,7 +4,6 @@ import PlaygroundContainer from './PlaygroundContainer/PlaygroundContainer';
 import HelperContainer from './HelperContainer/HelperContainer';
 
 const Toolbar = memo(function Toolbar() {
-  console.log('Toolbar render');
   return (
     <div className='toolbar row-span-2 flex flex-col justify-between items-center px-4 py-6'>
       <PlaygroundContainer />
