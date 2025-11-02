@@ -10,13 +10,12 @@ import {
 import { useSettings } from './SettingsContext';
 
 const createInitialBoard = (board) => {
-  const initialBoard = Array.from({ length: board.positions.end.row }, () =>
-    Array.from({ length: board.positions.end.col }, () => 'shadow')
+  const initialBoard = Array.from({ length: board.dimensions.rows }, () =>
+    Array.from({ length: board.dimensions.cols }, () => 'shadow')
   );
 
   initialBoard[board.positions.start.row][board.positions.start.col] = 'start';
-  initialBoard[board.positions.end.row - 2][board.positions.end.col - 2] =
-    'end';
+  initialBoard[board.positions.end.row][board.positions.end.col] = 'end';
 
   return initialBoard;
 };
