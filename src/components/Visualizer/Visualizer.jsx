@@ -1,8 +1,8 @@
 import './Visualizer.css';
-import { useCallback, useLayoutEffect, useRef } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 import Cell from './Cell/Cell';
 
-const CELL_SIZE = 40;
+const CELL_SIZE = 36;
 
 function Visualizer({ board, setBoard }) {
   const boardRef = useRef(null);
@@ -12,8 +12,8 @@ function Visualizer({ board, setBoard }) {
       if (!entries[0]) return;
 
       const rect = entries[0].contentRect;
-      const cols = Math.floor(rect.width / CELL_SIZE);
-      const rows = Math.floor(rect.height / CELL_SIZE);
+      const cols = Math.floor((rect.width - 2) / (CELL_SIZE - 2));
+      const rows = Math.floor((rect.height - 2) / (CELL_SIZE - 2));
 
       if (rows <= 0 || cols <= 0) return;
 
@@ -32,10 +32,13 @@ function Visualizer({ board, setBoard }) {
     observer.observe(boardRef.current);
 
     return () => observer.disconnect();
-  }, [board.dimensions, setBoard]);
+  }, [setBoard]);
 
   return (
-    <div ref={boardRef} className='board'>
+    <div
+      ref={boardRef}
+      className='board'
+      style={{ '--cell-size': `${CELL_SIZE}px` }}>
       {board.state &&
         board.state.map((row, rowIndex) => (
           <div key={rowIndex} className='board-row'>
