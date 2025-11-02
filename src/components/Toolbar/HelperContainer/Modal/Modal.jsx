@@ -10,14 +10,16 @@ function Modal({ modalRef, type, onClose, children }) {
   }, [type]);
 
   const handleBackdropClick = (e) => {
-    const rect = modalRef.current.getBoundingClientRect();
-    if (
-      e.clientX < rect.left ||
-      e.clientX > rect.right ||
-      e.clientY < rect.top ||
-      e.clientY > rect.bottom
-    ) {
-      onClose();
+    if (e.target === modalRef.current) {
+      const rect = modalRef.current.getBoundingClientRect();
+      if (
+        e.clientX < rect.left ||
+        e.clientX > rect.right ||
+        e.clientY < rect.top ||
+        e.clientY > rect.bottom
+      ) {
+        onClose();
+      }
     }
   };
 
