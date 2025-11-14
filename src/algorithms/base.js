@@ -47,24 +47,24 @@ class BaseAlgorithm {
 
     const [row, col] = this.getRowsAndCols(node.state);
 
-    if (row > 0 && this.boardState[row - 1][col] !== 'wall') {
+    if (row > 0 && !this.boardState[row - 1][col].startsWith('wall')) {
       neighbors.top = `${row - 1}-${col}`;
     }
 
     if (
       row < this.boardState.length - 1 &&
-      this.boardState[row + 1][col] !== 'wall'
+      !this.boardState[row + 1][col].startsWith('wall')
     ) {
       neighbors.bottom = `${row + 1}-${col}`;
     }
 
-    if (col > 0 && this.boardState[row][col - 1] !== 'wall') {
+    if (col > 0 && !this.boardState[row][col - 1].startsWith('wall')) {
       neighbors.left = `${row}-${col - 1}`;
     }
 
     if (
       col < this.boardState[row].length - 1 &&
-      this.boardState[row][col + 1] !== 'wall'
+      !this.boardState[row][col + 1].startsWith('wall')
     ) {
       neighbors.right = `${row}-${col + 1}`;
     }
