@@ -34,6 +34,7 @@ const HelperContainer = memo(function HelperContainer() {
                   onChange={(e) => changeAlgorithm(e.target.value)}>
                   <option value='dfs'>Depth First Search</option>
                   <option value='bfs'>Breadth First Search</option>
+                  <option value='aStar'>A*</option>
                 </select>
               </div>
 
