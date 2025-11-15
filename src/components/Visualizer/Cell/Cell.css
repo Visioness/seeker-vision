@@ -10,13 +10,15 @@
 }
 
 .start {
-  background-color: #00ff0010;
-  border-color: #00ff0040;
+  background-color: #00ff0040;
+  border-color: #00ff0070;
+  border-width: 4px;
 }
 
 .end {
-  background-color: #ff000010;
-  border-color: #ff000040;
+  background-color: #ff000040;
+  border-color: #ff000070;
+  border-width: 4px;
 }
 
 .shadow {
@@ -38,7 +40,7 @@
 .wall {
   background-color: #cccccc22;
   border-color: #aaaaaaaa;
-  border-width: 4px;
+  border-width: 3px;
   animation: wallPop 0.3s cubic-bezier(0.37, 0.96, 0.64, 1.13) forwards;
 }
 
