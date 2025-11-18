@@ -1,11 +1,12 @@
 import './PlaygroundContainer.css';
 import { memo } from 'react';
-import { Pause, Play, Square, StepForward } from 'lucide-react';
+import { Pause, Play, Square, StepForward, BrushCleaning } from 'lucide-react';
 import PlaygroundButton from './PlaygroundButton/PlaygroundButton';
 import { useVisualization } from '../../../contexts/VisualizationContext';
 
 const PlaygroundContainer = memo(function PlaygroundContainer() {
-  const { play, stepForward, pause, reset, visualState } = useVisualization();
+  const { play, stepForward, pause, reset, resetAll, visualState } =
+    useVisualization();
 
   return (
     <div className='playground-container'>
@@ -24,6 +25,9 @@ const PlaygroundContainer = memo(function PlaygroundContainer() {
       </PlaygroundButton>
       <PlaygroundButton onClick={reset} disabled={visualState === 'idle'}>
         <Square size={24} strokeWidth={3} color='#fff' />
+      </PlaygroundButton>
+      <PlaygroundButton onClick={resetAll} disabled={visualState === 'idle'}>
+        <BrushCleaning size={24} strokeWidth={3} color='#fff' />
       </PlaygroundButton>
     </div>
   );

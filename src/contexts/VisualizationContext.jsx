@@ -26,6 +26,7 @@ const VisualizationContext = createContext({
   pause: () => {},
   stepForward: () => {},
   reset: () => {},
+  resetAll: () => {},
   visualState: 'idle',
 });
 
@@ -96,12 +97,12 @@ const VisualizationProvider = ({ board, children, setBoard }) => {
               if (colIndex === targetCol) {
                 if (cell.includes('shadow')) {
                   return cell.replace('shadow', 'visited');
-                } else {
-                  return cell + ' path';
                 }
-              } else {
-                return cell;
+
+                return cell + ' path';
               }
+
+              return cell;
             })
           : row
       ),
@@ -144,17 +145,41 @@ const VisualizationProvider = ({ board, children, setBoard }) => {
     nextStep();
   }, [nextStep, runModel]);
 
+  // Reset only visited and path cells
   const reset = useCallback(() => {
     setVisualState('idle');
+    resetModel();
+    setBoard((previous) => ({
+      ...previous,
+      state: previous.state.map((row) => {
+        if (row.some((cell) => cell.includes('visited'))) {
+          return row.map((cell) => {
+            if (cell.includes('visited')) {
+              return cell.replace('visited', 'shadow').replace(' path', '');
+            }
 
+            return cell;
+          });
+        }
+
+        return row;
+      }),
+    }));
+  }, []);
+
+  const resetAll = useCallback(() => {
+    setVisualState('idle');
+    resetModel();
+    initializeBoard();
+  }, [initializeBoard]);
+
+  const resetModel = useCallback(() => {
     clearInterval(interval.current);
     interval.current = null;
     pathfinder.current = null;
     actions.current = null;
     stepIndex.current = 0;
-
-    initializeBoard();
-  }, [initializeBoard]);
+  }, []);
 
   useEffect(() => {
     return () => {
@@ -170,9 +195,10 @@ const VisualizationProvider = ({ board, children, setBoard }) => {
       pause,
       stepForward,
       reset,
+      resetAll,
       visualState,
     }),
-    [play, pause, stepForward, reset, visualState]
+    [play, pause, stepForward, reset, resetAll, visualState]
   );
 
   return (
