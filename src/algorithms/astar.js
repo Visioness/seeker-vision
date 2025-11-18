@@ -43,16 +43,26 @@ class AStar extends BaseAlgorithm {
     const neighbors = this.getNeighbors(node);
 
     for (const [action, state] of Object.entries(neighbors)) {
-      if (
-        !(
-          state === null ||
-          this.inFrontierAlready(state) ||
-          this.explored.has(state)
-        )
-      ) {
+      if (state === null || this.explored.has(state)) {
+        continue;
+      }
+
+      const newG = node.g + 1;
+      const newH = this.heuristic(state);
+
+      const existingNode = this.frontier.find((node) => node.state === state);
+
+      if (existingNode) {
+        if (newG < existingNode.g) {
+          existingNode.g = newG;
+          existingNode.h = newH;
+          existingNode.parent = node;
+          existingNode.action = action;
+        }
+      } else {
         const childNode = new Node(state, node, action);
-        childNode.g = node.g + 1;
-        childNode.h = this.heuristic(state);
+        childNode.g = newG;
+        childNode.h = newH;
 
         this.frontier.push(childNode);
       }
@@ -68,12 +78,17 @@ class AStar extends BaseAlgorithm {
 
   getLowestCost(frontier) {
     let lowestCost = Infinity;
+    let lowestH = Infinity;
     let lowestIndex = null;
 
     frontier.forEach((node, index) => {
       const currentCost = node.g + node.h;
-      if (lowestCost > currentCost) {
+      if (
+        currentCost < lowestCost ||
+        (currentCost === lowestCost && node.h < lowestH)
+      ) {
         lowestCost = currentCost;
+        lowestH = node.h;
         lowestIndex = index;
       }
     });
