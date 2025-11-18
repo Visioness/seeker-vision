@@ -115,9 +115,19 @@ function Visualizer({ board, setBoard }) {
         dragged.current.nextCol
       );
 
+      const isStart = dragged.current.state === 'start';
+      const newPositions = {
+        row: dragged.current.nextRow,
+        col: dragged.current.nextCol,
+      };
+
       setBoard((previous) => ({
         ...previous,
         state: newBoardState,
+        positions: {
+          start: isStart ? newPositions : previous.positions.start,
+          end: !isStart ? newPositions : previous.positions.end,
+        },
       }));
     }
 
