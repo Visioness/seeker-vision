@@ -9,6 +9,11 @@
   margin-left: -2px;
 }
 
+.shadow {
+  border-color: #ffffff1a;
+  animation: shadowPop 0.3s cubic-bezier(0.37, 0.96, 0.64, 1.13) forwards;
+}
+
 .start {
   background-color: #00ff0040;
   border-color: #00ff0070;
@@ -19,11 +24,6 @@
   background-color: #ff000040;
   border-color: #ff000070;
   border-width: 4px;
-}
-
-.shadow {
-  border-color: #ffffff1a;
-  animation: shadowPop 0.3s cubic-bezier(0.37, 0.96, 0.64, 1.13) forwards;
 }
 
 @keyframes shadowPop {

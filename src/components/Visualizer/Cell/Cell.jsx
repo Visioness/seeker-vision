@@ -6,7 +6,7 @@ const Cell = memo(function Cell({ state, row, col }) {
     return state.startsWith('wall') ? state.replace('-', ' ') : state;
   }, [state]);
 
-  const draggable = state === 'start' || state === 'end';
+  const draggable = state === 'start shadow' || state === 'end shadow';
 
   return (
     <div

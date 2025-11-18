@@ -9,8 +9,8 @@ class BaseAlgorithm {
 
     for (let i = 0; i < this.boardState.length; i++) {
       for (let j = 0; j < this.boardState[i].length; j++) {
-        if (this.boardState[i][j] === 'start') start = `${i}-${j}`;
-        if (this.boardState[i][j] === 'end') end = `${i}-${j}`;
+        if (this.boardState[i][j] === 'start shadow') start = `${i}-${j}`;
+        if (this.boardState[i][j] === 'end shadow') end = `${i}-${j}`;
       }
     }
 

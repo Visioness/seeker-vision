@@ -68,7 +68,7 @@ function Visualizer({ board, setBoard }) {
     setTimeout(() => document.body.removeChild(dragImage), 0);
 
     dragged.current = {
-      state: isStart ? 'start' : 'end',
+      state: isStart ? 'start shadow' : 'end shadow',
       previousRow: Number(e.target.dataset.row),
       previousCol: Number(e.target.dataset.col),
     };
@@ -115,7 +115,7 @@ function Visualizer({ board, setBoard }) {
         dragged.current.nextCol
       );
 
-      const isStart = dragged.current.state === 'start';
+      const isStart = dragged.current.state === 'start shadow';
       const newPositions = {
         row: dragged.current.nextRow,
         col: dragged.current.nextCol,

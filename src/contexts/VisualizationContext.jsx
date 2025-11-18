@@ -14,8 +14,9 @@ const createInitialBoard = (board) => {
     Array.from({ length: board.dimensions.cols }, () => 'shadow')
   );
 
-  initialBoard[board.positions.start.row][board.positions.start.col] = 'start';
-  initialBoard[board.positions.end.row][board.positions.end.col] = 'end';
+  initialBoard[board.positions.start.row][board.positions.start.col] =
+    'start shadow';
+  initialBoard[board.positions.end.row][board.positions.end.col] = 'end shadow';
 
   return initialBoard;
 };
@@ -87,28 +88,24 @@ const VisualizationProvider = ({ board, children, setBoard }) => {
     const coordinate = actions.current[stepIndex.current];
     const [targetRow, targetCol] = coordinate.split('-').map(Number);
 
-    setBoard((previous) => {
-      return {
-        ...previous,
-        state: previous.state.map((row, rowIndex) =>
-          rowIndex === targetRow
-            ? row.map((cell, colIndex) =>
-                colIndex === targetCol
-                  ? cell === 'shadow'
-                    ? 'visited'
-                    : cell === 'start' || cell === 'end'
-                    ? `${cell} visited`
-                    : cell === 'visited'
-                    ? 'visited path'
-                    : cell === 'start' || cell === 'end'
-                    ? `${cell} visited path`
-                    : `${cell} visited path`
-                  : cell
-              )
-            : row
-        ),
-      };
-    });
+    setBoard((previous) => ({
+      ...previous,
+      state: previous.state.map((row, rowIndex) =>
+        rowIndex === targetRow
+          ? row.map((cell, colIndex) => {
+              if (colIndex === targetCol) {
+                if (cell.includes('shadow')) {
+                  return cell.replace('shadow', 'visited');
+                } else {
+                  return cell + ' path';
+                }
+              } else {
+                return cell;
+              }
+            })
+          : row
+      ),
+    }));
   }, [setBoard]);
 
   const nextStep = useCallback(() => {
