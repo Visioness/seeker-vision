@@ -42,7 +42,7 @@ class LinkedList {
     if (this.size > 1) {
       let current = this.head;
 
-      while (current.next !== this.tail) current = current.next();
+      while (current.next !== this.tail) current = current.next;
 
       this.tail = current;
       this.tail.next = null;
